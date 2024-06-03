@@ -1,6 +1,7 @@
 coverage
 issues/
 node_modules/
+dist/
 samples/e2e
 tests/e2e/diffs
 .DS_Store

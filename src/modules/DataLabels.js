@@ -47,8 +47,8 @@ class DataLabels {
     let lastDrawnIndex =
       typeof w.globals.lastDrawnDataLabelsIndexes[i] !== 'undefined'
         ? w.globals.lastDrawnDataLabelsIndexes[i][
-        w.globals.lastDrawnDataLabelsIndexes[i].length - 1
-        ]
+            w.globals.lastDrawnDataLabelsIndexes[i].length - 1
+          ]
         : 0
 
     if (typeof w.globals.dataLabelsRects[i][len] !== 'undefined') {
@@ -196,7 +196,7 @@ class DataLabels {
       color,
       alwaysDrawDataLabel,
       offsetCorrection,
-      className
+      className,
     } = opts
 
     let dataLabelText = null
@@ -265,6 +265,26 @@ class DataLabels {
 
     let offX = dataLabelsConfig.offsetX
     let offY = dataLabelsConfig.offsetY
+
+    // add offset for first label
+    if (dataLabelsConfig.adjustLabels) {
+      if (j === 0) {
+        offX += correctedLabels.textRects.width / 2
+      }
+
+      if (j === w.config.series[i].data.length - 1) {
+        offX -= correctedLabels.textRects.width / 2
+      }
+    }
+
+    // position callback to change datalabel position
+    if (dataLabelsConfig.position) {
+      const pointPosition = dataLabelsConfig.position(
+        j,
+        w.config.series[i].data
+      )
+      if (pointPosition === 'bottom') offY = -offY * 3
+    }
 
     if (w.config.chart.type === 'bar' || w.config.chart.type === 'rangeBar') {
       // for certain chart types, we handle offsets while calculating datalabels pos
