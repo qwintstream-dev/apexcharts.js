@@ -316,6 +316,7 @@ type ApexAxisChartSeries = {
   color?: string
   group?: string
   zIndex?: number
+  dataLabels?: ApexDataLabels
   data:
     | (number | null)[]
     | {
