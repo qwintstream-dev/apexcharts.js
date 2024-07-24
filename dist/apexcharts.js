@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v3.49.2
+ * ApexCharts v3.49.3
  * (c) 2018-2024 ApexCharts
  * Released under the MIT License.
  */
@@ -7814,7 +7814,8 @@
     }, {
       key: "drawDataLabel",
       value: function drawDataLabel(_ref) {
-        var _this = this;
+        var _w$config$series$i$da,
+          _this = this;
         var type = _ref.type,
           pos = _ref.pos,
           i = _ref.i,
@@ -7826,7 +7827,7 @@
         // all other charts like radar / bars / heatmaps will define their own drawDataLabel routine
         var w = this.w;
         var graphics = new Graphics(this.ctx);
-        var dataLabelsConfig = w.config.dataLabels;
+        var dataLabelsConfig = (_w$config$series$i$da = w.config.series[i].dataLabels) !== null && _w$config$series$i$da !== void 0 ? _w$config$series$i$da : w.config.dataLabels;
         var x = 0;
         var y = 0;
         var dataPointIndex = j;
@@ -7855,7 +7856,7 @@
             }
             var text = '';
             var getText = function getText(v) {
-              return w.config.dataLabels.formatter(v, {
+              return dataLabelsConfig.formatter(v, {
                 ctx: _this.ctx,
                 seriesIndex: i,
                 dataPointIndex: dataPointIndex,
@@ -7874,7 +7875,7 @@
                 text = getText(val);
               }
             }
-            var textAnchor = w.config.dataLabels.textAnchor;
+            var textAnchor = dataLabelsConfig.textAnchor;
             if (w.globals.isSlopeChart) {
               if (dataPointIndex === 0) {
                 textAnchor = 'end';
@@ -7892,7 +7893,7 @@
               j: dataPointIndex,
               parent: elDataLabelsWrap,
               offsetCorrection: true,
-              dataLabelsConfig: w.config.dataLabels,
+              dataLabelsConfig: dataLabelsConfig,
               textAnchor: textAnchor
             });
           }
@@ -7918,8 +7919,8 @@
           offsetCorrection = opts.offsetCorrection,
           className = opts.className;
         var dataLabelText = null;
-        if (Array.isArray(w.config.dataLabels.enabledOnSeries)) {
-          if (w.config.dataLabels.enabledOnSeries.indexOf(i) < 0) {
+        if (Array.isArray(dataLabelsConfig.enabledOnSeries)) {
+          if (dataLabelsConfig.enabledOnSeries.indexOf(i) < 0) {
             return dataLabelText;
           }
         }

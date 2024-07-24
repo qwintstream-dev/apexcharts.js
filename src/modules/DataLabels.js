@@ -84,7 +84,7 @@ class DataLabels {
 
     const graphics = new Graphics(this.ctx)
 
-    let dataLabelsConfig = w.config.dataLabels
+    let dataLabelsConfig = w.config.series[i].dataLabels ?? w.config.dataLabels
 
     let x = 0
     let y = 0
@@ -125,7 +125,7 @@ class DataLabels {
         let text = ''
 
         const getText = (v) => {
-          return w.config.dataLabels.formatter(v, {
+          return dataLabelsConfig.formatter(v, {
             ctx: this.ctx,
             seriesIndex: i,
             dataPointIndex,
@@ -151,7 +151,7 @@ class DataLabels {
           }
         }
 
-        let textAnchor = w.config.dataLabels.textAnchor
+        let textAnchor = dataLabelsConfig.textAnchor
 
         if (w.globals.isSlopeChart) {
           if (dataPointIndex === 0) {
@@ -171,7 +171,7 @@ class DataLabels {
           j: dataPointIndex,
           parent: elDataLabelsWrap,
           offsetCorrection: true,
-          dataLabelsConfig: w.config.dataLabels,
+          dataLabelsConfig,
           textAnchor,
         })
       }
@@ -200,8 +200,8 @@ class DataLabels {
     } = opts
 
     let dataLabelText = null
-    if (Array.isArray(w.config.dataLabels.enabledOnSeries)) {
-      if (w.config.dataLabels.enabledOnSeries.indexOf(i) < 0) {
+    if (Array.isArray(dataLabelsConfig.enabledOnSeries)) {
+      if (dataLabelsConfig.enabledOnSeries.indexOf(i) < 0) {
         return dataLabelText
       }
     }
