@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v3.49.6
+ * ApexCharts v3.49.7
  * (c) 2018-2024 ApexCharts
  * Released under the MIT License.
  */
@@ -17889,6 +17889,7 @@
           bcx = x + parseFloat(barWidth * visibleSeries);
           bcy = y + parseFloat(barHeight * visibleSeries);
         }
+        window.console.log('handleBarDataLabels', i, j, w.config.series[i].dataLabels);
         var dataLabels = null;
         var totalDataLabels = null;
         var dataLabelsX = x;
