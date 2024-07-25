@@ -383,29 +383,41 @@ class DataLabels {
       '.apexcharts-datalabels text'
     )
 
-    for (let i = 0; i < elDataLabels.length; i++) {
-      const el = elDataLabels[i]
-      const coords = el.getBBox()
-      let elRect = null
+    const labelsPerSeries = parseInt(
+      elDataLabels.length / w.config.series.length
+    )
 
-      if (coords.width && coords.height) {
-        elRect = this.addBackgroundToDataLabel(el, coords)
-      }
-      if (elRect) {
-        el.parentNode.insertBefore(elRect.node, el)
-        const background = el.getAttribute('fill')
+    for (let i = 0; i < w.config.series.length; i++) {
+      for (let j = 0; j < labelsPerSeries; j++) {
+        const el = elDataLabels[i * labelsPerSeries + j]
+        const coords = el.getBBox()
+        let elRect = null
 
-        const shouldAnim =
-          w.config.chart.animations.enabled &&
-          !w.globals.resized &&
-          !w.globals.dataChanged
-
-        if (shouldAnim) {
-          elRect.animate().attr({ fill: background })
-        } else {
-          elRect.attr({ fill: background })
+        if (coords.width && coords.height) {
+          elRect = this.addBackgroundToDataLabel(el, coords)
         }
-        el.setAttribute('fill', w.config.dataLabels.background.foreColor)
+        if (elRect) {
+          el.parentNode.insertBefore(elRect.node, el)
+          const background = el.getAttribute('fill')
+
+          const shouldAnim =
+            w.config.chart.animations.enabled &&
+            !w.globals.resized &&
+            !w.globals.dataChanged
+
+          if (shouldAnim) {
+            elRect.animate().attr({ fill: background })
+          } else {
+            elRect.attr({ fill: background })
+          }
+
+          const foreColor = w.config.dataLabels.background.foreColor
+          if (typeof foreColor === 'function') {
+            el.setAttribute('fill', foreColor({ seriesIndex: i }))
+          } else if (typeof foreColor === 'object') {
+            el.setAttribute('fill', foreColor[i])
+          } else el.setAttribute('fill', foreColor)
+        }
       }
     }
   }

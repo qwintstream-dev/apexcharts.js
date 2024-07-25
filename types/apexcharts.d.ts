@@ -920,7 +920,7 @@ type ApexDataLabels = {
   }
   background?: {
     enabled?: boolean
-    foreColor?: string
+    foreColor?: string | string[] | ((opts: {seriesIndex: number}) => string)
     borderRadius?: number
     padding?: number
     opacity?: number
