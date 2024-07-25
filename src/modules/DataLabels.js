@@ -387,20 +387,11 @@ class DataLabels {
       '.apexcharts-datalabels text'
     )
 
-    const labelsPerSeries = parseInt(
-      elDataLabels.length / w.config.series.length
-    )
-
-    window.console.log(
-      'BG CHART',
-      elDataLabels.length,
-      w.config.series.length,
-      labelsPerSeries
-    )
+    let curLabelIndex = 0
     for (let i = 0; i < w.config.series.length; i++) {
-      for (let j = 0; j < labelsPerSeries; j++) {
-        const el = elDataLabels[i * labelsPerSeries + j]
-        window.console.log(el, i * labelsPerSeries + j)
+      const labelsAmount = w.config.series[i].data.length
+      for (let j = 0; j < labelsAmount; j++) {
+        const el = elDataLabels[curLabelIndex++]
         const coords = el.getBBox()
         let elRect = null
 

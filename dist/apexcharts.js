@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v3.49.8
+ * ApexCharts v3.49.9
  * (c) 2018-2024 ApexCharts
  * Released under the MIT License.
  */
@@ -8053,12 +8053,11 @@
         var w = this.w;
         if (w.config.chart.type === 'bubble') return;
         var elDataLabels = w.globals.dom.baseEl.querySelectorAll('.apexcharts-datalabels text');
-        var labelsPerSeries = parseInt(elDataLabels.length / w.config.series.length);
-        window.console.log('BG CHART', elDataLabels.length, w.config.series.length, labelsPerSeries);
+        var curLabelIndex = 0;
         for (var i = 0; i < w.config.series.length; i++) {
-          for (var j = 0; j < labelsPerSeries; j++) {
-            var el = elDataLabels[i * labelsPerSeries + j];
-            window.console.log(el, i * labelsPerSeries + j);
+          var labelsAmount = w.config.series[i].data.length;
+          for (var j = 0; j < labelsAmount; j++) {
+            var el = elDataLabels[curLabelIndex++];
             var coords = el.getBBox();
             var elRect = null;
             if (coords.width && coords.height) {
