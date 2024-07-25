@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v3.49.7
+ * ApexCharts v3.49.8
  * (c) 2018-2024 ApexCharts
  * Released under the MIT License.
  */
@@ -7827,7 +7827,6 @@
         // all other charts like radar / bars / heatmaps will define their own drawDataLabel routine
         var w = this.w;
         var graphics = new Graphics(this.ctx);
-        window.console.log(type, i, j, w.config.series[i].dataLabels);
         var dataLabelsConfig = (_w$config$series$i$da = w.config.series[i].dataLabels) !== null && _w$config$series$i$da !== void 0 ? _w$config$series$i$da : w.config.dataLabels;
         var x = 0;
         var y = 0;
@@ -8055,9 +8054,11 @@
         if (w.config.chart.type === 'bubble') return;
         var elDataLabels = w.globals.dom.baseEl.querySelectorAll('.apexcharts-datalabels text');
         var labelsPerSeries = parseInt(elDataLabels.length / w.config.series.length);
+        window.console.log('BG CHART', elDataLabels.length, w.config.series.length, labelsPerSeries);
         for (var i = 0; i < w.config.series.length; i++) {
           for (var j = 0; j < labelsPerSeries; j++) {
             var el = elDataLabels[i * labelsPerSeries + j];
+            window.console.log(el, i * labelsPerSeries + j);
             var coords = el.getBBox();
             var elRect = null;
             if (coords.width && coords.height) {
@@ -17889,7 +17890,6 @@
           bcx = x + parseFloat(barWidth * visibleSeries);
           bcy = y + parseFloat(barHeight * visibleSeries);
         }
-        window.console.log('handleBarDataLabels', i, j, w.config.series[i].dataLabels);
         var dataLabels = null;
         var totalDataLabels = null;
         var dataLabelsX = x;

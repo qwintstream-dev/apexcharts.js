@@ -84,7 +84,6 @@ class DataLabels {
 
     const graphics = new Graphics(this.ctx)
 
-    window.console.log(type, i, j, w.config.series[i].dataLabels)
     let dataLabelsConfig = w.config.series[i].dataLabels ?? w.config.dataLabels
 
     let x = 0
@@ -392,9 +391,16 @@ class DataLabels {
       elDataLabels.length / w.config.series.length
     )
 
+    window.console.log(
+      'BG CHART',
+      elDataLabels.length,
+      w.config.series.length,
+      labelsPerSeries
+    )
     for (let i = 0; i < w.config.series.length; i++) {
       for (let j = 0; j < labelsPerSeries; j++) {
         const el = elDataLabels[i * labelsPerSeries + j]
+        window.console.log(el, i * labelsPerSeries + j)
         const coords = el.getBBox()
         let elRect = null
 

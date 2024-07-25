@@ -56,13 +56,6 @@ export default class BarDataLabels {
       bcy = y + parseFloat(barHeight * visibleSeries)
     }
 
-    window.console.log(
-      'handleBarDataLabels',
-      i,
-      j,
-      w.config.series[i].dataLabels
-    )
-
     let dataLabels = null
     let totalDataLabels = null
     let dataLabelsX = x
