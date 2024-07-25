@@ -341,10 +341,14 @@ class DataLabels {
     return dataLabelText
   }
 
-  addBackgroundToDataLabel(el, coords) {
+  addBackgroundToDataLabel(el, coords, seriesIndex) {
     const w = this.w
 
     const bCnf = w.config.dataLabels.background
+    let opacity = bCnf.opacity
+
+    if (typeof opacity === 'function') opacity = opacity({ seriesIndex })
+    else if (typeof opacity === 'object') opacity = opacity[seriesIndex]
 
     const paddingH = bCnf.padding
     const paddingV = bCnf.padding / 2
@@ -361,7 +365,7 @@ class DataLabels {
       w.config.chart.background === 'transparent'
         ? '#fff'
         : w.config.chart.background,
-      bCnf.opacity,
+      opacity,
       bCnf.borderWidth,
       bCnf.borderColor
     )
@@ -394,7 +398,7 @@ class DataLabels {
         let elRect = null
 
         if (coords.width && coords.height) {
-          elRect = this.addBackgroundToDataLabel(el, coords)
+          elRect = this.addBackgroundToDataLabel(el, coords, i)
         }
         if (elRect) {
           el.parentNode.insertBefore(elRect.node, el)

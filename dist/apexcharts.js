@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v3.49.4
+ * ApexCharts v3.49.5
  * (c) 2018-2024 ApexCharts
  * Released under the MIT License.
  */
@@ -8028,15 +8028,19 @@
       }
     }, {
       key: "addBackgroundToDataLabel",
-      value: function addBackgroundToDataLabel(el, coords) {
+      value: function addBackgroundToDataLabel(el, coords, seriesIndex) {
         var w = this.w;
         var bCnf = w.config.dataLabels.background;
+        var opacity = bCnf.opacity;
+        if (typeof opacity === 'function') opacity = opacity({
+          seriesIndex: seriesIndex
+        });else if (_typeof(opacity) === 'object') opacity = opacity[seriesIndex];
         var paddingH = bCnf.padding;
         var paddingV = bCnf.padding / 2;
         var width = coords.width;
         var height = coords.height;
         var graphics = new Graphics(this.ctx);
-        var elRect = graphics.drawRect(coords.x - paddingH, coords.y - paddingV / 2, width + paddingH * 2, height + paddingV, bCnf.borderRadius, w.config.chart.background === 'transparent' ? '#fff' : w.config.chart.background, bCnf.opacity, bCnf.borderWidth, bCnf.borderColor);
+        var elRect = graphics.drawRect(coords.x - paddingH, coords.y - paddingV / 2, width + paddingH * 2, height + paddingV, bCnf.borderRadius, w.config.chart.background === 'transparent' ? '#fff' : w.config.chart.background, opacity, bCnf.borderWidth, bCnf.borderColor);
         if (bCnf.dropShadow.enabled) {
           var filters = new Filters(this.ctx);
           filters.dropShadow(elRect, bCnf.dropShadow);
@@ -8056,7 +8060,7 @@
             var coords = el.getBBox();
             var elRect = null;
             if (coords.width && coords.height) {
-              elRect = this.addBackgroundToDataLabel(el, coords);
+              elRect = this.addBackgroundToDataLabel(el, coords, i);
             }
             if (elRect) {
               el.parentNode.insertBefore(elRect.node, el);

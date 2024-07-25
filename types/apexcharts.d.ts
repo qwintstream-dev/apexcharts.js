@@ -923,7 +923,7 @@ type ApexDataLabels = {
     foreColor?: string | string[] | ((opts: {seriesIndex: number}) => string)
     borderRadius?: number
     padding?: number
-    opacity?: number
+    opacity?: number | number[] | ((opts: {seriesIndex: number}) => number)
     borderWidth?: number
     borderColor?: string
     dropShadow?: ApexDropShadow
