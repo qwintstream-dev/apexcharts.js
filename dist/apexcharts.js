@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v3.49.5
+ * ApexCharts v3.49.6
  * (c) 2018-2024 ApexCharts
  * Released under the MIT License.
  */
@@ -7827,6 +7827,7 @@
         // all other charts like radar / bars / heatmaps will define their own drawDataLabel routine
         var w = this.w;
         var graphics = new Graphics(this.ctx);
+        window.console.log(type, i, j, w.config.series[i].dataLabels);
         var dataLabelsConfig = (_w$config$series$i$da = w.config.series[i].dataLabels) !== null && _w$config$series$i$da !== void 0 ? _w$config$series$i$da : w.config.dataLabels;
         var x = 0;
         var y = 0;

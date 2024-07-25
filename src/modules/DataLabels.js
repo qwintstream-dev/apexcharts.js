@@ -84,6 +84,7 @@ class DataLabels {
 
     const graphics = new Graphics(this.ctx)
 
+    window.console.log(type, i, j, w.config.series[i].dataLabels)
     let dataLabelsConfig = w.config.series[i].dataLabels ?? w.config.dataLabels
 
     let x = 0
