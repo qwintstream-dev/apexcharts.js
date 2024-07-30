@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v3.49.12
+ * ApexCharts v3.49.13
  * (c) 2018-2024 ApexCharts
  * Released under the MIT License.
  */
@@ -8054,17 +8054,14 @@
         if (w.config.chart.type === 'bubble') return;
         var elDataLabels = w.globals.dom.baseEl.querySelectorAll('.apexcharts-datalabels text');
         var curLabelIndex = 0;
-        window.console.log(elDataLabels.length, elDataLabels);
-        window.console.log(w.config);
         for (var i = 0; i < w.config.series.length; i++) {
           var labelsAmount = w.config.series[i].data.length;
           if (curLabelIndex === elDataLabels.length) break;
-          if (w.config.dataLabels.enabledOnSeries && !w.config.dataLabels.enabledOnSeries.includes(i)) break;
+          if (w.config.dataLabels.enabledOnSeries && !w.config.dataLabels.enabledOnSeries.includes(i + 1)) break;
           for (var j = 0; j < labelsAmount; j++) {
             var el = elDataLabels[curLabelIndex++];
             var coords = el.getBBox();
             var elRect = null;
-            window.console.log(el);
             if (coords.width && coords.height) {
               elRect = this.addBackgroundToDataLabel(el, coords, i);
             }

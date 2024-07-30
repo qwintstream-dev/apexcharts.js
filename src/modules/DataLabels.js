@@ -388,22 +388,18 @@ class DataLabels {
     )
 
     let curLabelIndex = 0
-    window.console.log(elDataLabels.length, elDataLabels)
-    window.console.log(w.config)
     for (let i = 0; i < w.config.series.length; i++) {
       const labelsAmount = w.config.series[i].data.length
       if (curLabelIndex === elDataLabels.length) break
       if (
         w.config.dataLabels.enabledOnSeries &&
-        !w.config.dataLabels.enabledOnSeries.includes(i)
+        !w.config.dataLabels.enabledOnSeries.includes(i + 1)
       )
         break
       for (let j = 0; j < labelsAmount; j++) {
         const el = elDataLabels[curLabelIndex++]
         const coords = el.getBBox()
         let elRect = null
-
-        window.console.log(el)
 
         if (coords.width && coords.height) {
           elRect = this.addBackgroundToDataLabel(el, coords, i)
