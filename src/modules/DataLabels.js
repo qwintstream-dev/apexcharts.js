@@ -390,6 +390,12 @@ class DataLabels {
     let curLabelIndex = 0
     for (let i = 0; i < w.config.series.length; i++) {
       const labelsAmount = w.config.series[i].data.length
+      if (curLabelIndex === elDataLabels.length) break
+      if (
+        w.config.dataLabels.enabledOnSeries &&
+        !w.config.dataLabels.enabledOnSeries.includes(i)
+      )
+        break
       for (let j = 0; j < labelsAmount; j++) {
         const el = elDataLabels[curLabelIndex++]
         const coords = el.getBBox()

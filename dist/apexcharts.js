@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v3.49.9
+ * ApexCharts v3.49.10
  * (c) 2018-2024 ApexCharts
  * Released under the MIT License.
  */
@@ -8056,6 +8056,8 @@
         var curLabelIndex = 0;
         for (var i = 0; i < w.config.series.length; i++) {
           var labelsAmount = w.config.series[i].data.length;
+          if (curLabelIndex === elDataLabels.length) break;
+          if (w.config.dataLabels.enabledOnSeries && !w.config.dataLabels.enabledOnSeries.includes(i)) break;
           for (var j = 0; j < labelsAmount; j++) {
             var el = elDataLabels[curLabelIndex++];
             var coords = el.getBBox();
@@ -23139,16 +23141,21 @@
           className: "apexcharts-".concat(type)
         };
         if (type === 'area') {
+          var _fullStroke$color, _fullStroke$lineCap, _fullStroke$strokeWid;
           var pathFill = fill.fillPath({
             seriesNumber: realIndex
           });
+          var fullStroke = w.config.plotOptions.area.fullStroke;
+          var areaStroke = (_fullStroke$color = fullStroke.color) !== null && _fullStroke$color !== void 0 ? _fullStroke$color : 'none';
+          var areaStrokeLineCap = (_fullStroke$lineCap = fullStroke.lineCap) !== null && _fullStroke$lineCap !== void 0 ? _fullStroke$lineCap : null;
+          var areaStrokeWidth = (_fullStroke$strokeWid = fullStroke.strokeWidth) !== null && _fullStroke$strokeWid !== void 0 ? _fullStroke$strokeWid : 0;
           for (var p = 0; p < paths.areaPaths.length; p++) {
             var renderedPath = graphics.renderPaths(_objectSpread2(_objectSpread2({}, defaultRenderedPathOptions), {}, {
               pathFrom: paths.pathFromArea,
               pathTo: paths.areaPaths[p],
-              stroke: 'none',
-              strokeWidth: 0,
-              strokeLineCap: null,
+              stroke: areaStroke,
+              strokeWidth: areaStrokeWidth,
+              strokeLineCap: areaStrokeLineCap,
               fill: pathFill
             }));
             this.elSeries.add(renderedPath);

@@ -430,14 +430,20 @@ class Line {
         seriesNumber: realIndex,
       })
 
+      const fullStroke = w.config.plotOptions.area.fullStroke
+
+      const areaStroke = fullStroke.color ?? 'none'
+      const areaStrokeLineCap = fullStroke.lineCap ?? null
+      const areaStrokeWidth = fullStroke.strokeWidth ?? 0
+
       for (let p = 0; p < paths.areaPaths.length; p++) {
         let renderedPath = graphics.renderPaths({
           ...defaultRenderedPathOptions,
           pathFrom: paths.pathFromArea,
           pathTo: paths.areaPaths[p],
-          stroke: 'none',
-          strokeWidth: 0,
-          strokeLineCap: null,
+          stroke: areaStroke,
+          strokeWidth: areaStrokeWidth,
+          strokeLineCap: areaStrokeLineCap,
           fill: pathFill,
         })
 

@@ -514,6 +514,11 @@ type ApexPlotOptions = {
   }
   area?: {
     fillTo?: 'origin' | 'end'
+    fullStroke?: {
+      color?: string
+      lineCap?: 'butt' | 'square' | 'round'
+      strokeWidth?: number
+    }
   }
   bar?: {
     horizontal?: boolean
