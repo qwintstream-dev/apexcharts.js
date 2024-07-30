@@ -388,6 +388,8 @@ class DataLabels {
     )
 
     let curLabelIndex = 0
+    console.log(elDataLabels.length, elDataLabels)
+    console.log(w.config)
     for (let i = 0; i < w.config.series.length; i++) {
       const labelsAmount = w.config.series[i].data.length
       if (curLabelIndex === elDataLabels.length) break
@@ -400,6 +402,8 @@ class DataLabels {
         const el = elDataLabels[curLabelIndex++]
         const coords = el.getBBox()
         let elRect = null
+
+        console.log(el)
 
         if (coords.width && coords.height) {
           elRect = this.addBackgroundToDataLabel(el, coords, i)
