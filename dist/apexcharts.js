@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v3.49.13
+ * ApexCharts v3.49.14
  * (c) 2018-2024 ApexCharts
  * Released under the MIT License.
  */
@@ -8053,40 +8053,35 @@
         var w = this.w;
         if (w.config.chart.type === 'bubble') return;
         var elDataLabels = w.globals.dom.baseEl.querySelectorAll('.apexcharts-datalabels text');
-        var curLabelIndex = 0;
-        for (var i = 0; i < w.config.series.length; i++) {
-          var labelsAmount = w.config.series[i].data.length;
-          if (curLabelIndex === elDataLabels.length) break;
-          if (w.config.dataLabels.enabledOnSeries && !w.config.dataLabels.enabledOnSeries.includes(i + 1)) break;
-          for (var j = 0; j < labelsAmount; j++) {
-            var el = elDataLabels[curLabelIndex++];
-            var coords = el.getBBox();
-            var elRect = null;
-            if (coords.width && coords.height) {
-              elRect = this.addBackgroundToDataLabel(el, coords, i);
+        for (var i = 0; i < elDataLabels.length; i++) {
+          var el = elDataLabels[i];
+          var coords = el.getBBox();
+          var elRect = null;
+          var seriesIndex = parseInt(el.parentNode.parentNode.attributes['data:realIndex'].value);
+          if (coords.width && coords.height) {
+            elRect = this.addBackgroundToDataLabel(el, coords, seriesIndex);
+          }
+          if (elRect) {
+            el.parentNode.insertBefore(elRect.node, el);
+            var background = el.getAttribute('fill');
+            var shouldAnim = w.config.chart.animations.enabled && !w.globals.resized && !w.globals.dataChanged;
+            if (shouldAnim) {
+              elRect.animate().attr({
+                fill: background
+              });
+            } else {
+              elRect.attr({
+                fill: background
+              });
             }
-            if (elRect) {
-              el.parentNode.insertBefore(elRect.node, el);
-              var background = el.getAttribute('fill');
-              var shouldAnim = w.config.chart.animations.enabled && !w.globals.resized && !w.globals.dataChanged;
-              if (shouldAnim) {
-                elRect.animate().attr({
-                  fill: background
-                });
-              } else {
-                elRect.attr({
-                  fill: background
-                });
-              }
-              var foreColor = w.config.dataLabels.background.foreColor;
-              if (typeof foreColor === 'function') {
-                el.setAttribute('fill', foreColor({
-                  seriesIndex: i
-                }));
-              } else if (_typeof(foreColor) === 'object') {
-                el.setAttribute('fill', foreColor[i]);
-              } else el.setAttribute('fill', foreColor);
-            }
+            var foreColor = w.config.dataLabels.background.foreColor;
+            if (typeof foreColor === 'function') {
+              el.setAttribute('fill', foreColor({
+                seriesIndex: seriesIndex
+              }));
+            } else if (_typeof(foreColor) === 'object') {
+              el.setAttribute('fill', foreColor[seriesIndex]);
+            } else el.setAttribute('fill', foreColor);
           }
         }
       }

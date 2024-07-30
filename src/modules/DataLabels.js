@@ -387,45 +387,39 @@ class DataLabels {
       '.apexcharts-datalabels text'
     )
 
-    let curLabelIndex = 0
-    for (let i = 0; i < w.config.series.length; i++) {
-      const labelsAmount = w.config.series[i].data.length
-      if (curLabelIndex === elDataLabels.length) break
-      if (
-        w.config.dataLabels.enabledOnSeries &&
-        !w.config.dataLabels.enabledOnSeries.includes(i + 1)
+    for (let i = 0; i < elDataLabels.length; i++) {
+      const el = elDataLabels[i]
+      const coords = el.getBBox()
+      let elRect = null
+
+      const seriesIndex = parseInt(
+        el.parentNode.parentNode.attributes['data:realIndex'].value
       )
-        break
-      for (let j = 0; j < labelsAmount; j++) {
-        const el = elDataLabels[curLabelIndex++]
-        const coords = el.getBBox()
-        let elRect = null
 
-        if (coords.width && coords.height) {
-          elRect = this.addBackgroundToDataLabel(el, coords, i)
+      if (coords.width && coords.height) {
+        elRect = this.addBackgroundToDataLabel(el, coords, seriesIndex)
+      }
+      if (elRect) {
+        el.parentNode.insertBefore(elRect.node, el)
+        const background = el.getAttribute('fill')
+
+        const shouldAnim =
+          w.config.chart.animations.enabled &&
+          !w.globals.resized &&
+          !w.globals.dataChanged
+
+        if (shouldAnim) {
+          elRect.animate().attr({ fill: background })
+        } else {
+          elRect.attr({ fill: background })
         }
-        if (elRect) {
-          el.parentNode.insertBefore(elRect.node, el)
-          const background = el.getAttribute('fill')
 
-          const shouldAnim =
-            w.config.chart.animations.enabled &&
-            !w.globals.resized &&
-            !w.globals.dataChanged
-
-          if (shouldAnim) {
-            elRect.animate().attr({ fill: background })
-          } else {
-            elRect.attr({ fill: background })
-          }
-
-          const foreColor = w.config.dataLabels.background.foreColor
-          if (typeof foreColor === 'function') {
-            el.setAttribute('fill', foreColor({ seriesIndex: i }))
-          } else if (typeof foreColor === 'object') {
-            el.setAttribute('fill', foreColor[i])
-          } else el.setAttribute('fill', foreColor)
-        }
+        const foreColor = w.config.dataLabels.background.foreColor
+        if (typeof foreColor === 'function') {
+          el.setAttribute('fill', foreColor({ seriesIndex }))
+        } else if (typeof foreColor === 'object') {
+          el.setAttribute('fill', foreColor[seriesIndex])
+        } else el.setAttribute('fill', foreColor)
       }
     }
   }
