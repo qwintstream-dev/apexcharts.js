@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v3.49.14
+ * ApexCharts v3.49.15
  * (c) 2018-2024 ApexCharts
  * Released under the MIT License.
  */
@@ -8057,7 +8057,12 @@
           var el = elDataLabels[i];
           var coords = el.getBBox();
           var elRect = null;
-          var seriesIndex = parseInt(el.parentNode.parentNode.attributes['data:realIndex'].value);
+          var seriesIndex = void 0;
+          try {
+            seriesIndex = parseInt(el.parentNode.parentNode.attributes['data:realIndex'].value);
+          } catch (_unused) {
+            seriesIndex = 0;
+          }
           if (coords.width && coords.height) {
             elRect = this.addBackgroundToDataLabel(el, coords, seriesIndex);
           }

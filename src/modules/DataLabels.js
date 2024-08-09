@@ -391,10 +391,15 @@ class DataLabels {
       const el = elDataLabels[i]
       const coords = el.getBBox()
       let elRect = null
+      let seriesIndex
 
-      const seriesIndex = parseInt(
-        el.parentNode.parentNode.attributes['data:realIndex'].value
-      )
+      try {
+        seriesIndex = parseInt(
+          el.parentNode.parentNode.attributes['data:realIndex'].value
+        )
+      } catch {
+        seriesIndex = 0
+      }
 
       if (coords.width && coords.height) {
         elRect = this.addBackgroundToDataLabel(el, coords, seriesIndex)
