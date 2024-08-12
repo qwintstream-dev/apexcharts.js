@@ -6,6 +6,7 @@ import Markers from '../modules/Markers'
 import Scatter from './Scatter'
 import Utils from '../utils/Utils'
 import Helpers from './common/line/Helpers'
+import BarHelpers from './common/bar/Helpers'
 import { svgPath, spline } from '../libs/monotone-cubic'
 /**
  * ApexCharts Line Class responsible for drawing Line / Area / RangeArea Charts.
@@ -31,6 +32,7 @@ class Line {
     this.noNegatives = this.w.globals.minX === Number.MAX_VALUE
 
     this.lineHelpers = new Helpers(this)
+    this.barHelpers = new BarHelpers(this)
     this.markers = new Markers(this.ctx)
 
     this.prevSeriesY = []
@@ -672,6 +674,20 @@ class Line {
         j,
         prevY,
       })
+
+      const columnPath = this.barHelpers.getColumnPaths({
+        barWidth: 3,
+        barXPosition: x,
+        y1: 0,
+        y2: y,
+        strokeWidth: this.strokeWidth,
+        seriesIndex: realIndex,
+        i,
+        j,
+        w,
+      })
+
+      window.console.log(columnPath)
 
       let calculatedPaths = this._createPaths({
         type,
