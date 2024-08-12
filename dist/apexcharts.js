@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v3.49.18
+ * ApexCharts v3.49.19
  * (c) 2018-2024 ApexCharts
  * Released under the MIT License.
  */
@@ -22678,7 +22678,6 @@
       this.scatter = new Scatter(this.ctx);
       this.noNegatives = this.w.globals.minX === Number.MAX_VALUE;
       this.lineHelpers = new Helpers(this);
-      this.barHelpers = new BarHelpers(this);
       this.markers = new Markers(this.ctx);
       this.prevSeriesY = [];
       this.categoryAxisCorrection = 0;

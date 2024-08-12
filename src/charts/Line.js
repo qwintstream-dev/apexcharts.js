@@ -31,7 +31,6 @@ class Line {
     this.noNegatives = this.w.globals.minX === Number.MAX_VALUE
 
     this.lineHelpers = new Helpers(this)
-    this.barHelpers = new BarHelpers(this)
     this.markers = new Markers(this.ctx)
 
     this.prevSeriesY = []
