@@ -448,22 +448,32 @@ class Line {
         })
 
         this.elSeries.add(renderedPath)
+
         // create clip path and add renderedPath to elDefs
-        window.console.log(renderedPath)
-        window.console.log(paths.areaPaths[p])
         const areaClipPath = document.createElementNS(
           w.globals.SVGNS,
           'clipPath'
         )
-        const clipRenderedPath = renderedPath.node.cloneNode(true)
-        clipRenderedPath.setAttribute(
-          'id',
-          `clipPathPath${w.globals.cuid}Area${p}`
-        )
-        window.console.log(clipRenderedPath)
+
+        const clipRenderedPath = graphics.renderPaths({
+          ...defaultRenderedPathOptions,
+          pathFrom: paths.pathFromArea,
+          pathTo: paths.areaPaths[p],
+          stroke: areaStroke,
+          strokeWidth: areaStrokeWidth,
+          strokeLineCap: areaStrokeLineCap,
+          fill: pathFill,
+        })
+
+        //clipRenderedPath.node.setAttribute(
+        //  'id',
+        //  `clipPathPath${w.globals.cuid}Area${p}`
+        //)
+        window.console.log('renderedPath', renderedPath.node)
+        window.console.log('clipPath', clipRenderedPath.node)
 
         areaClipPath.setAttribute('id', `clipPath${w.globals.cuid}Area${p}`)
-        areaClipPath.appendChild(clipRenderedPath)
+        areaClipPath.appendChild(clipRenderedPath.node)
         w.globals.dom.elDefs.node.appendChild(areaClipPath)
       }
     }

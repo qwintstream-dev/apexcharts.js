@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v3.49.26
+ * ApexCharts v3.49.27
  * (c) 2018-2024 ApexCharts
  * Released under the MIT License.
  */
@@ -23028,15 +23028,26 @@
               fill: pathFill
             }));
             this.elSeries.add(renderedPath);
+
             // create clip path and add renderedPath to elDefs
-            window.console.log(renderedPath);
-            window.console.log(paths.areaPaths[p]);
             var areaClipPath = document.createElementNS(w.globals.SVGNS, 'clipPath');
-            var clipRenderedPath = renderedPath.node.cloneNode(true);
-            clipRenderedPath.setAttribute('id', "clipPathPath".concat(w.globals.cuid, "Area").concat(p));
-            window.console.log(clipRenderedPath);
+            var clipRenderedPath = graphics.renderPaths(_objectSpread2(_objectSpread2({}, defaultRenderedPathOptions), {}, {
+              pathFrom: paths.pathFromArea,
+              pathTo: paths.areaPaths[p],
+              stroke: areaStroke,
+              strokeWidth: areaStrokeWidth,
+              strokeLineCap: areaStrokeLineCap,
+              fill: pathFill
+            }));
+
+            //clipRenderedPath.node.setAttribute(
+            //  'id',
+            //  `clipPathPath${w.globals.cuid}Area${p}`
+            //)
+            window.console.log('renderedPath', renderedPath.node);
+            window.console.log('clipPath', clipRenderedPath.node);
             areaClipPath.setAttribute('id', "clipPath".concat(w.globals.cuid, "Area").concat(p));
-            areaClipPath.appendChild(clipRenderedPath);
+            areaClipPath.appendChild(clipRenderedPath.node);
             w.globals.dom.elDefs.node.appendChild(areaClipPath);
           }
         }
