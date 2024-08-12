@@ -447,6 +447,7 @@ class Line {
           fill: pathFill,
         })
 
+        window.console.log(renderedPath)
         this.elSeries.add(renderedPath)
         // create clip path and add renderedPath to elDefs
         const areaClipPath = document.createElementNS(
@@ -454,7 +455,7 @@ class Line {
           'clipPath'
         )
         areaClipPath.setAttribute('id', `clipPath-area-${p}`)
-        areaClipPath.appendChild(renderedPath.node.cloneNode(true))
+        areaClipPath.appendChild(renderedPath)
         w.globals.dom.elDefs.node.appendChild(areaClipPath)
       }
     }

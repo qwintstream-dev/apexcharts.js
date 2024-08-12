@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v3.49.19
+ * ApexCharts v3.49.20
  * (c) 2018-2024 ApexCharts
  * Released under the MIT License.
  */
@@ -23027,11 +23027,12 @@
               strokeLineCap: areaStrokeLineCap,
               fill: pathFill
             }));
+            window.console.log(renderedPath);
             this.elSeries.add(renderedPath);
             // create clip path and add renderedPath to elDefs
             var areaClipPath = document.createElementNS(w.globals.SVGNS, 'clipPath');
             areaClipPath.setAttribute('id', "clipPath-area-".concat(p));
-            areaClipPath.appendChild(renderedPath.node.cloneNode(true));
+            areaClipPath.appendChild(renderedPath);
             w.globals.dom.elDefs.node.appendChild(areaClipPath);
           }
         }
