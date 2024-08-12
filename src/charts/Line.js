@@ -6,7 +6,6 @@ import Markers from '../modules/Markers'
 import Scatter from './Scatter'
 import Utils from '../utils/Utils'
 import Helpers from './common/line/Helpers'
-import BarHelpers from './common/bar/Helpers'
 import { svgPath, spline } from '../libs/monotone-cubic'
 /**
  * ApexCharts Line Class responsible for drawing Line / Area / RangeArea Charts.
@@ -438,7 +437,6 @@ class Line {
       const areaStrokeLineCap = fullStroke.lineCap ?? null
       const areaStrokeWidth = fullStroke.strokeWidth ?? 0
 
-      window.console.log(paths.areaPaths)
       for (let p = 0; p < paths.areaPaths.length; p++) {
         let renderedPath = graphics.renderPaths({
           ...defaultRenderedPathOptions,
@@ -451,6 +449,14 @@ class Line {
         })
 
         this.elSeries.add(renderedPath)
+        // create clip path and add renderedPath to elDefs
+        const areaClipPath = document.createElementNS(
+          w.globals.SVGNS,
+          'clipPath'
+        )
+        areaClipPath.setAttribute('id', `clipPath-area-${p}`)
+        areaClipPath.appendChild(renderedPath.node.cloneNode(true))
+        w.globals.dom.elDefs.node.appendChild(areaClipPath)
       }
     }
 

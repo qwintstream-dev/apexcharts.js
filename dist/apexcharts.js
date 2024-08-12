@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v3.49.17
+ * ApexCharts v3.49.18
  * (c) 2018-2024 ApexCharts
  * Released under the MIT License.
  */
@@ -22678,7 +22678,7 @@
       this.scatter = new Scatter(this.ctx);
       this.noNegatives = this.w.globals.minX === Number.MAX_VALUE;
       this.lineHelpers = new Helpers(this);
-      this.barHelpers = new Helpers$1(this);
+      this.barHelpers = new BarHelpers(this);
       this.markers = new Markers(this.ctx);
       this.prevSeriesY = [];
       this.categoryAxisCorrection = 0;
@@ -23019,7 +23019,6 @@
           var areaStroke = (_fullStroke$color = fullStroke.color) !== null && _fullStroke$color !== void 0 ? _fullStroke$color : 'none';
           var areaStrokeLineCap = (_fullStroke$lineCap = fullStroke.lineCap) !== null && _fullStroke$lineCap !== void 0 ? _fullStroke$lineCap : null;
           var areaStrokeWidth = (_fullStroke$strokeWid = fullStroke.strokeWidth) !== null && _fullStroke$strokeWid !== void 0 ? _fullStroke$strokeWid : 0;
-          window.console.log(paths.areaPaths);
           for (var p = 0; p < paths.areaPaths.length; p++) {
             var renderedPath = graphics.renderPaths(_objectSpread2(_objectSpread2({}, defaultRenderedPathOptions), {}, {
               pathFrom: paths.pathFromArea,
@@ -23030,6 +23029,11 @@
               fill: pathFill
             }));
             this.elSeries.add(renderedPath);
+            // create clip path and add renderedPath to elDefs
+            var areaClipPath = document.createElementNS(w.globals.SVGNS, 'clipPath');
+            areaClipPath.setAttribute('id', "clipPath-area-".concat(p));
+            areaClipPath.appendChild(renderedPath.node.cloneNode(true));
+            w.globals.dom.elDefs.node.appendChild(areaClipPath);
           }
         }
         if (w.config.stroke.show && !this.pointsChart) {
