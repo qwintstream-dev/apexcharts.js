@@ -453,8 +453,11 @@ class Line {
           w.globals.SVGNS,
           'clipPath'
         )
+        const clipRenderedPath = renderedPath.node.cloneNode(true)
+        clipRenderedPath.setAttribute('id', `clipPath-path-area-${p}`)
+
         areaClipPath.setAttribute('id', `clipPath-area-${p}`)
-        areaClipPath.appendChild(renderedPath.node)
+        areaClipPath.appendChild(clipRenderedPath)
         w.globals.dom.elDefs.node.appendChild(areaClipPath)
       }
     }
