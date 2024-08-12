@@ -449,6 +449,8 @@ class Line {
 
         this.elSeries.add(renderedPath)
         // create clip path and add renderedPath to elDefs
+        window.console.log(renderedPath)
+        window.console.log(paths.areaPaths[p])
         const areaClipPath = document.createElementNS(
           w.globals.SVGNS,
           'clipPath'
@@ -458,6 +460,7 @@ class Line {
           'id',
           `clipPathPath${w.globals.cuid}Area${p}`
         )
+        window.console.log(clipRenderedPath)
 
         areaClipPath.setAttribute('id', `clipPath${w.globals.cuid}Area${p}`)
         areaClipPath.appendChild(clipRenderedPath)

@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v3.49.25
+ * ApexCharts v3.49.26
  * (c) 2018-2024 ApexCharts
  * Released under the MIT License.
  */
@@ -23029,9 +23029,12 @@
             }));
             this.elSeries.add(renderedPath);
             // create clip path and add renderedPath to elDefs
+            window.console.log(renderedPath);
+            window.console.log(paths.areaPaths[p]);
             var areaClipPath = document.createElementNS(w.globals.SVGNS, 'clipPath');
             var clipRenderedPath = renderedPath.node.cloneNode(true);
             clipRenderedPath.setAttribute('id', "clipPathPath".concat(w.globals.cuid, "Area").concat(p));
+            window.console.log(clipRenderedPath);
             areaClipPath.setAttribute('id', "clipPath".concat(w.globals.cuid, "Area").concat(p));
             areaClipPath.appendChild(clipRenderedPath);
             w.globals.dom.elDefs.node.appendChild(areaClipPath);
