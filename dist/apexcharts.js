@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v3.49.22
+ * ApexCharts v3.49.23
  * (c) 2018-2024 ApexCharts
  * Released under the MIT License.
  */
@@ -19079,7 +19079,7 @@
           dataChangeSpeed: w.config.chart.animations.dynamicAnimation.speed,
           className: "apexcharts-".concat(type, "-area")
         });
-        renderedPath.attr('clip-path', "url(#gridRectMask".concat(w.globals.cuid, ")"));
+        if (w.config.plotOptions.bar.clipPath) renderedPath.attr('clip-path', "url(#".concat(w.config.plotOptions.bar.clipPath, ")"));else renderedPath.attr('clip-path', "url(#gridRectMask".concat(w.globals.cuid, ")"));
         var forecast = w.config.forecastDataPoints;
         if (forecast.count > 0) {
           if (j >= w.globals.dataPoints - forecast.count) {

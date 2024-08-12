@@ -563,6 +563,7 @@ type ApexPlotOptions = {
         }
       }
     }
+    clipPath?: string
   }
   bubble?: {
     zScaling?: boolean

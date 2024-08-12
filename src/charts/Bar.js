@@ -110,8 +110,7 @@ class Bar {
 
       let realIndex = w.globals.comboCharts ? seriesIndex[i] : i
 
-      let {columnGroupIndex} =
-              this.barHelpers.getGroupIndex(realIndex)
+      let { columnGroupIndex } = this.barHelpers.getGroupIndex(realIndex)
 
       // el to which series will be drawn
       let elSeries = graphics.group({
@@ -383,7 +382,12 @@ class Bar {
       className: `apexcharts-${type}-area`,
     })
 
-    renderedPath.attr('clip-path', `url(#gridRectMask${w.globals.cuid})`)
+    if (w.config.plotOptions.bar.clipPath)
+      renderedPath.attr(
+        'clip-path',
+        `url(#${w.config.plotOptions.bar.clipPath})`
+      )
+    else renderedPath.attr('clip-path', `url(#gridRectMask${w.globals.cuid})`)
 
     const forecast = w.config.forecastDataPoints
     if (forecast.count > 0) {
