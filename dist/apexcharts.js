@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v3.49.24
+ * ApexCharts v3.49.25
  * (c) 2018-2024 ApexCharts
  * Released under the MIT License.
  */
@@ -19079,7 +19079,7 @@
           dataChangeSpeed: w.config.chart.animations.dynamicAnimation.speed,
           className: "apexcharts-".concat(type, "-area")
         });
-        if (w.config.plotOptions.bar.clipPath) renderedPath.attr('clip-path', "url(#".concat(w.config.plotOptions.bar.clipPath, ")"));else renderedPath.attr('clip-path', "url(#gridRectMask".concat(w.globals.cuid, ")"));
+        if (w.config.plotOptions.bar.clipPath) renderedPath.attr('clip-path', "url(#clipPath".concat(w.globals.cuid).concat(w.config.plotOptions.bar.clipPath, ")"));else renderedPath.attr('clip-path', "url(#gridRectMask".concat(w.globals.cuid, ")"));
         var forecast = w.config.forecastDataPoints;
         if (forecast.count > 0) {
           if (j >= w.globals.dataPoints - forecast.count) {
@@ -23031,8 +23031,8 @@
             // create clip path and add renderedPath to elDefs
             var areaClipPath = document.createElementNS(w.globals.SVGNS, 'clipPath');
             var clipRenderedPath = renderedPath.node.cloneNode(true);
-            clipRenderedPath.setAttribute('id', "clipPath-path-area-".concat(p));
-            areaClipPath.setAttribute('id', "clipPathArea".concat(p));
+            clipRenderedPath.setAttribute('id', "clipPathPath".concat(w.globals.cuid, "Area").concat(p));
+            areaClipPath.setAttribute('id', "clipPath".concat(w.globals.cuid, "Area").concat(p));
             areaClipPath.appendChild(clipRenderedPath);
             w.globals.dom.elDefs.node.appendChild(areaClipPath);
           }

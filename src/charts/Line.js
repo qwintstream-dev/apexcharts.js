@@ -454,9 +454,12 @@ class Line {
           'clipPath'
         )
         const clipRenderedPath = renderedPath.node.cloneNode(true)
-        clipRenderedPath.setAttribute('id', `clipPath-path-area-${p}`)
+        clipRenderedPath.setAttribute(
+          'id',
+          `clipPathPath${w.globals.cuid}Area${p}`
+        )
 
-        areaClipPath.setAttribute('id', `clipPathArea${p}`)
+        areaClipPath.setAttribute('id', `clipPath${w.globals.cuid}Area${p}`)
         areaClipPath.appendChild(clipRenderedPath)
         w.globals.dom.elDefs.node.appendChild(areaClipPath)
       }

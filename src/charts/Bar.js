@@ -385,7 +385,7 @@ class Bar {
     if (w.config.plotOptions.bar.clipPath)
       renderedPath.attr(
         'clip-path',
-        `url(#${w.config.plotOptions.bar.clipPath})`
+        `url(#clipPath${w.globals.cuid}${w.config.plotOptions.bar.clipPath})`
       )
     else renderedPath.attr('clip-path', `url(#gridRectMask${w.globals.cuid})`)
 
