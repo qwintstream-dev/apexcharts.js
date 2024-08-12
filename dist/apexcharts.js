@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v3.49.16
+ * ApexCharts v3.49.17
  * (c) 2018-2024 ApexCharts
  * Released under the MIT License.
  */
@@ -23019,6 +23019,7 @@
           var areaStroke = (_fullStroke$color = fullStroke.color) !== null && _fullStroke$color !== void 0 ? _fullStroke$color : 'none';
           var areaStrokeLineCap = (_fullStroke$lineCap = fullStroke.lineCap) !== null && _fullStroke$lineCap !== void 0 ? _fullStroke$lineCap : null;
           var areaStrokeWidth = (_fullStroke$strokeWid = fullStroke.strokeWidth) !== null && _fullStroke$strokeWid !== void 0 ? _fullStroke$strokeWid : 0;
+          window.console.log(paths.areaPaths);
           for (var p = 0; p < paths.areaPaths.length; p++) {
             var renderedPath = graphics.renderPaths(_objectSpread2(_objectSpread2({}, defaultRenderedPathOptions), {}, {
               pathFrom: paths.pathFromArea,
@@ -23201,18 +23202,6 @@
             j: j,
             prevY: prevY
           });
-          var columnPath = this.barHelpers.getColumnPaths({
-            barWidth: 3,
-            barXPosition: x,
-            y1: 0,
-            y2: y,
-            strokeWidth: this.strokeWidth,
-            seriesIndex: realIndex,
-            i: i,
-            j: j,
-            w: w
-          });
-          window.console.log(columnPath);
           var calculatedPaths = this._createPaths({
             type: type,
             series: series,

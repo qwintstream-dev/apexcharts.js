@@ -438,6 +438,7 @@ class Line {
       const areaStrokeLineCap = fullStroke.lineCap ?? null
       const areaStrokeWidth = fullStroke.strokeWidth ?? 0
 
+      window.console.log(paths.areaPaths)
       for (let p = 0; p < paths.areaPaths.length; p++) {
         let renderedPath = graphics.renderPaths({
           ...defaultRenderedPathOptions,
@@ -674,20 +675,6 @@ class Line {
         j,
         prevY,
       })
-
-      const columnPath = this.barHelpers.getColumnPaths({
-        barWidth: 3,
-        barXPosition: x,
-        y1: 0,
-        y2: y,
-        strokeWidth: this.strokeWidth,
-        seriesIndex: realIndex,
-        i,
-        j,
-        w,
-      })
-
-      window.console.log(columnPath)
 
       let calculatedPaths = this._createPaths({
         type,
