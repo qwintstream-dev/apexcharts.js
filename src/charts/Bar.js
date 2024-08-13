@@ -443,7 +443,9 @@ class Bar {
     }
 
     const wBarMarkers = w.config.plotOptions.bar.markers
+    window.console.log(i, j, w.config.series[i].data[j])
     if (wBarMarkers && wBarMarkers.show && w.config.series[i].data[j]) {
+      window.console.log('INSIDE')
       let elPointsWrap = this.markers.plotChartMarkers({
         pointsPos: {
           x: barXPosition,
@@ -453,6 +455,8 @@ class Bar {
         realIndex,
         j: j + 1,
       })
+
+      window.console.log(elPointsWrap)
 
       if (elPointsWrap !== null) elPointsMain.add(elPointsWrap)
     }

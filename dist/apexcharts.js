@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v3.49.30
+ * ApexCharts v3.49.31
  * (c) 2018-2024 ApexCharts
  * Released under the MIT License.
  */
@@ -19127,7 +19127,9 @@
           elDataLabelsWrap.add(dataLabelsObj.totalDataLabels);
         }
         var wBarMarkers = w.config.plotOptions.bar.markers;
+        window.console.log(i, j, w.config.series[i].data[j]);
         if (wBarMarkers && wBarMarkers.show && w.config.series[i].data[j]) {
+          window.console.log('INSIDE');
           var elPointsWrap = this.markers.plotChartMarkers({
             pointsPos: {
               x: barXPosition,
@@ -19137,6 +19139,7 @@
             realIndex: realIndex,
             j: j + 1
           });
+          window.console.log(elPointsWrap);
           if (elPointsWrap !== null) elPointsMain.add(elPointsWrap);
         }
         elSeries.add(elPointsMain);
