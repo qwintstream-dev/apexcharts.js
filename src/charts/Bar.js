@@ -5,6 +5,7 @@ import Utils from '../utils/Utils'
 import Filters from '../modules/Filters'
 import Graphics from '../modules/Graphics'
 import Series from '../modules/Series'
+import Markers from '../modules/Markers'
 
 /**
  * ApexCharts Bar Class responsible for drawing both Columns and Bars.
@@ -66,6 +67,7 @@ class Bar {
     )
 
     this.barHelpers = new BarHelpers(this)
+    this.markers = new Markers(this.ctx)
   }
 
   /** primary draw method which is called on bar object
@@ -84,6 +86,11 @@ class Bar {
     this.yRatio = coreUtils.getLogYRatios(this.yRatio)
 
     this.barHelpers.initVariables(series)
+
+    this.elPointsMain = graphics.group({
+      class: 'apexcharts-series-markers-wrap',
+      'data:realIndex': realIndex,
+    })
 
     let ret = graphics.group({
       class: 'apexcharts-bar-series apexcharts-plot-series',
@@ -433,6 +440,21 @@ class Bar {
       elDataLabelsWrap.add(dataLabelsObj.totalDataLabels)
     }
 
+    const wBarMarkers = w.config.plotOptions.bar.markers
+    if (wBarMarkers && wBarMarkers.show && w.config.series[i].data[j]) {
+      let elPointsWrap = this.markers.plotChartMarkers({
+        pointsPos: {
+          x: barXPosition,
+          y: barYPosition,
+        },
+        seriesIndex: i,
+        j: j + 1,
+      })
+
+      if (elPointsWrap !== null) this.elPointsMain.add(elPointsWrap)
+    }
+
+    elSeries.add(this.elPointsMain)
     elSeries.add(elDataLabelsWrap)
 
     if (elGoalsMarkers) {

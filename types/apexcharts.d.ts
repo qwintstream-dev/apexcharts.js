@@ -545,6 +545,10 @@ type ApexPlotOptions = {
       backgroundBarOpacity?: number
       backgroundBarRadius?: number
     }
+    markers?: {
+      show?: boolean
+      focus?: string
+    }
     dataLabels?: {
       maxItems?: number
       hideOverflowingLabels?: boolean
