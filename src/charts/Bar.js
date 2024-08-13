@@ -87,11 +87,6 @@ class Bar {
 
     this.barHelpers.initVariables(series)
 
-    this.elPointsMain = graphics.group({
-      class: 'apexcharts-series-markers-wrap',
-      'data:realIndex': realIndex,
-    })
-
     let ret = graphics.group({
       class: 'apexcharts-bar-series apexcharts-plot-series',
     })
@@ -116,6 +111,11 @@ class Bar {
       let xArrj = [] // hold x values of current iterating series
 
       let realIndex = w.globals.comboCharts ? seriesIndex[i] : i
+
+      let elPointsMain = graphics.group({
+        class: 'apexcharts-series-markers-wrap',
+        'data:realIndex': realIndex,
+      })
 
       let { columnGroupIndex } = this.barHelpers.getGroupIndex(realIndex)
 
@@ -282,6 +282,7 @@ class Bar {
           series,
           barHeight: paths.barHeight ? paths.barHeight : barHeight,
           barWidth: paths.barWidth ? paths.barWidth : barWidth,
+          elPointsMain,
           elDataLabelsWrap,
           elGoalsMarkers,
           elBarShadows,
@@ -320,6 +321,7 @@ class Bar {
     barWidth,
     barXPosition,
     barYPosition,
+    elPointsMain,
     elDataLabelsWrap,
     elGoalsMarkers,
     elBarShadows,
@@ -452,10 +454,10 @@ class Bar {
         j: j + 1,
       })
 
-      if (elPointsWrap !== null) this.elPointsMain.add(elPointsWrap)
+      if (elPointsWrap !== null) elPointsMain.add(elPointsWrap)
     }
 
-    elSeries.add(this.elPointsMain)
+    elSeries.add(elPointsMain)
     elSeries.add(elDataLabelsWrap)
 
     if (elGoalsMarkers) {

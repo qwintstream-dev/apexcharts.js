@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v3.49.29
+ * ApexCharts v3.49.30
  * (c) 2018-2024 ApexCharts
  * Released under the MIT License.
  */
@@ -18836,10 +18836,6 @@
         this.series = series;
         this.yRatio = coreUtils.getLogYRatios(this.yRatio);
         this.barHelpers.initVariables(series);
-        this.elPointsMain = graphics.group({
-          class: 'apexcharts-series-markers-wrap',
-          'data:realIndex': realIndex
-        });
         var ret = graphics.group({
           class: 'apexcharts-bar-series apexcharts-plot-series'
         });
@@ -18862,26 +18858,30 @@
           var yArrj = []; // hold y values of current iterating series
           var xArrj = []; // hold x values of current iterating series
 
-          var _realIndex = w.globals.comboCharts ? seriesIndex[i] : i;
-          var _this$barHelpers$getG = this.barHelpers.getGroupIndex(_realIndex),
+          var realIndex = w.globals.comboCharts ? seriesIndex[i] : i;
+          var elPointsMain = graphics.group({
+            class: 'apexcharts-series-markers-wrap',
+            'data:realIndex': realIndex
+          });
+          var _this$barHelpers$getG = this.barHelpers.getGroupIndex(realIndex),
             columnGroupIndex = _this$barHelpers$getG.columnGroupIndex;
 
           // el to which series will be drawn
           var elSeries = graphics.group({
             class: "apexcharts-series",
             rel: i + 1,
-            seriesName: Utils$1.escapeString(w.globals.seriesNames[_realIndex]),
-            'data:realIndex': _realIndex
+            seriesName: Utils$1.escapeString(w.globals.seriesNames[realIndex]),
+            'data:realIndex': realIndex
           });
-          this.ctx.series.addCollapsedClassToSeries(elSeries, _realIndex);
+          this.ctx.series.addCollapsedClassToSeries(elSeries, realIndex);
           if (series[i].length > 0) {
             this.visibleI = this.visibleI + 1;
           }
           var barHeight = 0;
           var barWidth = 0;
           if (this.yRatio.length > 1) {
-            this.yaxisIndex = w.globals.seriesYAxisReverseMap[_realIndex];
-            this.translationsIndex = _realIndex;
+            this.yaxisIndex = w.globals.seriesYAxisReverseMap[realIndex];
+            this.translationsIndex = realIndex;
           }
           var translationsIndex = this.translationsIndex;
           this.isReversed = w.config.yaxis[this.yaxisIndex] && w.config.yaxis[this.yaxisIndex].reversed;
@@ -18901,7 +18901,7 @@
           // eldatalabels
           var elDataLabelsWrap = graphics.group({
             class: 'apexcharts-datalabels',
-            'data:realIndex': _realIndex
+            'data:realIndex': realIndex
           });
           w.globals.delayedElements.push({
             el: elDataLabelsWrap.node
@@ -18918,13 +18918,13 @@
           });
           elBarShadows.node.classList.add('apexcharts-element-hidden');
           for (var j = 0; j < series[i].length; j++) {
-            var strokeWidth = this.barHelpers.getStrokeWidth(i, j, _realIndex);
+            var strokeWidth = this.barHelpers.getStrokeWidth(i, j, realIndex);
             var paths = null;
             var pathsParams = {
               indexes: {
                 i: i,
                 j: j,
-                realIndex: _realIndex,
+                realIndex: realIndex,
                 translationsIndex: translationsIndex,
                 bc: bc
               },
@@ -18948,7 +18948,7 @@
               }));
               barHeight = this.series[i][j] / this.yRatio[translationsIndex];
             }
-            var pathFill = this.barHelpers.getPathFillColor(series, i, j, _realIndex);
+            var pathFill = this.barHelpers.getPathFillColor(series, i, j, realIndex);
             if (this.isFunnel && this.barOptions.isFunnel3d && this.pathArr.length && j > 0) {
               var barShadow = this.barHelpers.drawBarShadow({
                 color: typeof pathFill === 'string' && (pathFill === null || pathFill === void 0 ? void 0 : pathFill.indexOf('url')) === -1 ? pathFill : Utils$1.hexToRgba(w.globals.colors[i]),
@@ -18980,7 +18980,7 @@
             }
             yArrj.push(y);
             this.renderSeries({
-              realIndex: _realIndex,
+              realIndex: realIndex,
               pathFill: pathFill,
               j: j,
               i: i,
@@ -18994,6 +18994,7 @@
               series: series,
               barHeight: paths.barHeight ? paths.barHeight : barHeight,
               barWidth: paths.barWidth ? paths.barWidth : barWidth,
+              elPointsMain: elPointsMain,
               elDataLabelsWrap: elDataLabelsWrap,
               elGoalsMarkers: elGoalsMarkers,
               elBarShadows: elBarShadows,
@@ -19003,8 +19004,8 @@
           }
 
           // push all x val arrays into main xArr
-          w.globals.seriesXvalues[_realIndex] = xArrj;
-          w.globals.seriesYvalues[_realIndex] = yArrj;
+          w.globals.seriesXvalues[realIndex] = xArrj;
+          w.globals.seriesYvalues[realIndex] = yArrj;
           ret.add(elSeries);
         }
         return ret;
@@ -19031,6 +19032,7 @@
           barWidth = _ref.barWidth,
           barXPosition = _ref.barXPosition,
           barYPosition = _ref.barYPosition,
+          elPointsMain = _ref.elPointsMain,
           elDataLabelsWrap = _ref.elDataLabelsWrap,
           elGoalsMarkers = _ref.elGoalsMarkers,
           elBarShadows = _ref.elBarShadows,
@@ -19135,9 +19137,9 @@
             realIndex: realIndex,
             j: j + 1
           });
-          if (elPointsWrap !== null) this.elPointsMain.add(elPointsWrap);
+          if (elPointsWrap !== null) elPointsMain.add(elPointsWrap);
         }
-        elSeries.add(this.elPointsMain);
+        elSeries.add(elPointsMain);
         elSeries.add(elDataLabelsWrap);
         if (elGoalsMarkers) {
           elSeries.add(elGoalsMarkers);
