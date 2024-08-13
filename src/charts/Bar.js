@@ -454,6 +454,7 @@ class Bar {
         seriesIndex: i,
         realIndex,
         j: j + 1,
+        alwaysDrawMarker: true,
       })
 
       window.console.log(elPointsWrap)

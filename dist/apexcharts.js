@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v3.49.32
+ * ApexCharts v3.49.33
  * (c) 2018-2024 ApexCharts
  * Released under the MIT License.
  */
@@ -19137,7 +19137,8 @@
             },
             seriesIndex: i,
             realIndex: realIndex,
-            j: j + 1
+            j: j + 1,
+            alwaysDrawMarker: true
           });
           window.console.log(elPointsWrap);
           if (elPointsWrap !== null) elPointsMain.add(elPointsWrap);
