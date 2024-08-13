@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v3.49.28
+ * ApexCharts v3.49.29
  * (c) 2018-2024 ApexCharts
  * Released under the MIT License.
  */
@@ -19132,6 +19132,7 @@
               y: barYPosition
             },
             seriesIndex: i,
+            realIndex: realIndex,
             j: j + 1
           });
           if (elPointsWrap !== null) this.elPointsMain.add(elPointsWrap);
@@ -23057,13 +23058,6 @@
               strokeLineCap: areaStrokeLineCap,
               fill: pathFill
             }));
-
-            //clipRenderedPath.node.setAttribute(
-            //  'id',
-            //  `clipPathPath${w.globals.cuid}Area${p}`
-            //)
-            window.console.log('renderedPath', renderedPath.node);
-            window.console.log('clipPath', clipRenderedPath.node);
             areaClipPath.setAttribute('id', "clipPath".concat(w.globals.cuid, "Area").concat(p));
             areaClipPath.appendChild(clipRenderedPath.node);
             w.globals.dom.elDefs.node.appendChild(areaClipPath);

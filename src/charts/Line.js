@@ -465,13 +465,6 @@ class Line {
           fill: pathFill,
         })
 
-        //clipRenderedPath.node.setAttribute(
-        //  'id',
-        //  `clipPathPath${w.globals.cuid}Area${p}`
-        //)
-        window.console.log('renderedPath', renderedPath.node)
-        window.console.log('clipPath', clipRenderedPath.node)
-
         areaClipPath.setAttribute('id', `clipPath${w.globals.cuid}Area${p}`)
         areaClipPath.appendChild(clipRenderedPath.node)
         w.globals.dom.elDefs.node.appendChild(areaClipPath)

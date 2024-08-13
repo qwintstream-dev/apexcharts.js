@@ -448,6 +448,7 @@ class Bar {
           y: barYPosition,
         },
         seriesIndex: i,
+        realIndex,
         j: j + 1,
       })
 
