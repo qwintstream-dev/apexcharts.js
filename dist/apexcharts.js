@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v3.49.31
+ * ApexCharts v3.49.32
  * (c) 2018-2024 ApexCharts
  * Released under the MIT License.
  */
@@ -19132,8 +19132,8 @@
           window.console.log('INSIDE');
           var elPointsWrap = this.markers.plotChartMarkers({
             pointsPos: {
-              x: barXPosition,
-              y: barYPosition
+              x: [barXPosition],
+              y: [barYPosition]
             },
             seriesIndex: i,
             realIndex: realIndex,

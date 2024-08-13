@@ -448,8 +448,8 @@ class Bar {
       window.console.log('INSIDE')
       let elPointsWrap = this.markers.plotChartMarkers({
         pointsPos: {
-          x: barXPosition,
-          y: barYPosition,
+          x: [barXPosition],
+          y: [barYPosition],
         },
         seriesIndex: i,
         realIndex,
