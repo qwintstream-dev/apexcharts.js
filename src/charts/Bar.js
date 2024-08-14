@@ -456,7 +456,8 @@ class Bar {
       if (elPointsWrap !== null) elPointsMain.add(elPointsWrap)
     }
 
-    elSeries.add(elPointsMain)
+    if (wBarMarkers && wBarMarkers.show) elSeries.add(elPointsMain)
+
     elSeries.add(elDataLabelsWrap)
 
     if (elGoalsMarkers) {

@@ -279,11 +279,10 @@ class DataLabels {
 
     // position callback to change datalabel position
     if (dataLabelsConfig.position) {
-      const pointPosition = dataLabelsConfig.position(
-        j,
-        w.config.series[i].data
-      )
-      if (pointPosition === 'bottom') offY = -offY * 3
+      const offYpos = dataLabelsConfig.position(j, w.config.series[i].data[j], {
+        w,
+      })
+      offY += offYpos
     }
 
     if (w.config.chart.type === 'bar' || w.config.chart.type === 'rangeBar') {

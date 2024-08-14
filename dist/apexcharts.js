@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v3.49.36
+ * ApexCharts v3.49.37
  * (c) 2018-2024 ApexCharts
  * Released under the MIT License.
  */
@@ -7909,8 +7909,10 @@
 
         // position callback to change datalabel position
         if (dataLabelsConfig.position) {
-          var pointPosition = dataLabelsConfig.position(j, w.config.series[i].data);
-          if (pointPosition === 'bottom') offY = -offY * 3;
+          var offYpos = dataLabelsConfig.position(j, w.config.series[i].data[j], {
+            w: w
+          });
+          offY += offYpos;
         }
         if (w.config.chart.type === 'bar' || w.config.chart.type === 'rangeBar') {
           // for certain chart types, we handle offsets while calculating datalabels pos
@@ -19134,7 +19136,7 @@
           }, realIndex, j + 1);
           if (elPointsWrap !== null) elPointsMain.add(elPointsWrap);
         }
-        elSeries.add(elPointsMain);
+        if (wBarMarkers && wBarMarkers.show) elSeries.add(elPointsMain);
         elSeries.add(elDataLabelsWrap);
         if (elGoalsMarkers) {
           elSeries.add(elGoalsMarkers);

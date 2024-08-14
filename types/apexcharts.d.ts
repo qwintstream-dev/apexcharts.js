@@ -940,7 +940,7 @@ type ApexDataLabels = {
   }
   dropShadow?: ApexDropShadow
   formatter?(val: string | number | number[], opts?: any): string | number
-  position?(index: number, data: number[]): 'top' | 'bottom'
+  position?(index: number, value: number, opts?: any): number
   adjustLabels?: boolean
 }
 
