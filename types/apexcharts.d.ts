@@ -316,6 +316,7 @@ type ApexAxisChartSeries = {
   color?: string
   group?: string
   zIndex?: number
+  dataLabels?: ApexDataLabels
   data:
     | (number | null)[]
     | {
@@ -513,6 +514,11 @@ type ApexPlotOptions = {
   }
   area?: {
     fillTo?: 'origin' | 'end'
+    fullStroke?: {
+      color?: string
+      lineCap?: 'butt' | 'square' | 'round'
+      strokeWidth?: number
+    }
   }
   bar?: {
     horizontal?: boolean
@@ -539,6 +545,10 @@ type ApexPlotOptions = {
       backgroundBarOpacity?: number
       backgroundBarRadius?: number
     }
+    markers?: {
+      show?: boolean
+      focus?: string
+    }
     dataLabels?: {
       maxItems?: number
       hideOverflowingLabels?: boolean
@@ -557,6 +567,7 @@ type ApexPlotOptions = {
         }
       }
     }
+    clipPath?: string
   }
   bubble?: {
     zScaling?: boolean
@@ -919,17 +930,17 @@ type ApexDataLabels = {
   }
   background?: {
     enabled?: boolean
-    foreColor?: string
+    foreColor?: string | string[] | ((opts: {seriesIndex: number}) => string)
     borderRadius?: number
     padding?: number
-    opacity?: number
+    opacity?: number | number[] | ((opts: {seriesIndex: number}) => number)
     borderWidth?: number
     borderColor?: string
     dropShadow?: ApexDropShadow
   }
   dropShadow?: ApexDropShadow
   formatter?(val: string | number | number[], opts?: any): string | number
-  position?(index: number, data: number[]): 'top' | 'bottom'
+  position?(index: number, value: number, opts?: any): number
   adjustLabels?: boolean
 }
 

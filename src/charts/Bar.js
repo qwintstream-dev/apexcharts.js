@@ -5,6 +5,7 @@ import Utils from '../utils/Utils'
 import Filters from '../modules/Filters'
 import Graphics from '../modules/Graphics'
 import Series from '../modules/Series'
+import Markers from '../modules/Markers'
 
 /**
  * ApexCharts Bar Class responsible for drawing both Columns and Bars.
@@ -66,6 +67,7 @@ class Bar {
     )
 
     this.barHelpers = new BarHelpers(this)
+    this.markers = new Markers(this.ctx)
   }
 
   /** primary draw method which is called on bar object
@@ -110,8 +112,12 @@ class Bar {
 
       let realIndex = w.globals.comboCharts ? seriesIndex[i] : i
 
-      let {columnGroupIndex} =
-              this.barHelpers.getGroupIndex(realIndex)
+      let elPointsMain = graphics.group({
+        class: 'apexcharts-series-markers-wrap',
+        'data:realIndex': realIndex,
+      })
+
+      let { columnGroupIndex } = this.barHelpers.getGroupIndex(realIndex)
 
       // el to which series will be drawn
       let elSeries = graphics.group({
@@ -276,6 +282,7 @@ class Bar {
           series,
           barHeight: paths.barHeight ? paths.barHeight : barHeight,
           barWidth: paths.barWidth ? paths.barWidth : barWidth,
+          elPointsMain,
           elDataLabelsWrap,
           elGoalsMarkers,
           elBarShadows,
@@ -314,6 +321,7 @@ class Bar {
     barWidth,
     barXPosition,
     barYPosition,
+    elPointsMain,
     elDataLabelsWrap,
     elGoalsMarkers,
     elBarShadows,
@@ -383,7 +391,12 @@ class Bar {
       className: `apexcharts-${type}-area`,
     })
 
-    renderedPath.attr('clip-path', `url(#gridRectMask${w.globals.cuid})`)
+    if (w.config.plotOptions.bar.clipPath)
+      renderedPath.attr(
+        'clip-path',
+        `url(#clipPath${w.globals.cuid}${w.config.plotOptions.bar.clipPath})`
+      )
+    else renderedPath.attr('clip-path', `url(#gridRectMask${w.globals.cuid})`)
 
     const forecast = w.config.forecastDataPoints
     if (forecast.count > 0) {
@@ -428,6 +441,22 @@ class Bar {
     if (dataLabelsObj.totalDataLabels) {
       elDataLabelsWrap.add(dataLabelsObj.totalDataLabels)
     }
+
+    const wBarMarkers = w.config.plotOptions.bar.markers
+    if (wBarMarkers && wBarMarkers.show && w.config.series[i].data[j]) {
+      let elPointsWrap = this.markers.plotChartMarkers(
+        {
+          x: [x + barWidth / 2],
+          y: [y],
+        },
+        realIndex,
+        j + 1
+      )
+
+      if (elPointsWrap !== null) elPointsMain.add(elPointsWrap)
+    }
+
+    if (wBarMarkers && wBarMarkers.show) elSeries.add(elPointsMain)
 
     elSeries.add(elDataLabelsWrap)
 

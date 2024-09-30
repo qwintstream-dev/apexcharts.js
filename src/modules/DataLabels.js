@@ -84,7 +84,7 @@ class DataLabels {
 
     const graphics = new Graphics(this.ctx)
 
-    let dataLabelsConfig = w.config.dataLabels
+    let dataLabelsConfig = w.config.series[i].dataLabels ?? w.config.dataLabels
 
     let x = 0
     let y = 0
@@ -125,7 +125,7 @@ class DataLabels {
         let text = ''
 
         const getText = (v) => {
-          return w.config.dataLabels.formatter(v, {
+          return dataLabelsConfig.formatter(v, {
             ctx: this.ctx,
             seriesIndex: i,
             dataPointIndex,
@@ -151,7 +151,7 @@ class DataLabels {
           }
         }
 
-        let textAnchor = w.config.dataLabels.textAnchor
+        let textAnchor = dataLabelsConfig.textAnchor
 
         if (w.globals.isSlopeChart) {
           if (dataPointIndex === 0) {
@@ -171,7 +171,7 @@ class DataLabels {
           j: dataPointIndex,
           parent: elDataLabelsWrap,
           offsetCorrection: true,
-          dataLabelsConfig: w.config.dataLabels,
+          dataLabelsConfig,
           textAnchor,
         })
       }
@@ -200,8 +200,8 @@ class DataLabels {
     } = opts
 
     let dataLabelText = null
-    if (Array.isArray(w.config.dataLabels.enabledOnSeries)) {
-      if (w.config.dataLabels.enabledOnSeries.indexOf(i) < 0) {
+    if (Array.isArray(dataLabelsConfig.enabledOnSeries)) {
+      if (dataLabelsConfig.enabledOnSeries.indexOf(i) < 0) {
         return dataLabelText
       }
     }
@@ -279,11 +279,10 @@ class DataLabels {
 
     // position callback to change datalabel position
     if (dataLabelsConfig.position) {
-      const pointPosition = dataLabelsConfig.position(
-        j,
-        w.config.series[i].data
-      )
-      if (pointPosition === 'bottom') offY = -offY * 3
+      const offYpos = dataLabelsConfig.position(j, w.config.series[i].data[j], {
+        w,
+      })
+      offY += offYpos
     }
 
     if (w.config.chart.type === 'bar' || w.config.chart.type === 'rangeBar') {
@@ -341,10 +340,14 @@ class DataLabels {
     return dataLabelText
   }
 
-  addBackgroundToDataLabel(el, coords) {
+  addBackgroundToDataLabel(el, coords, seriesIndex) {
     const w = this.w
 
     const bCnf = w.config.dataLabels.background
+    let opacity = bCnf.opacity
+
+    if (typeof opacity === 'function') opacity = opacity({ seriesIndex })
+    else if (typeof opacity === 'object') opacity = opacity[seriesIndex]
 
     const paddingH = bCnf.padding
     const paddingV = bCnf.padding / 2
@@ -361,7 +364,7 @@ class DataLabels {
       w.config.chart.background === 'transparent'
         ? '#fff'
         : w.config.chart.background,
-      bCnf.opacity,
+      opacity,
       bCnf.borderWidth,
       bCnf.borderColor
     )
@@ -387,9 +390,18 @@ class DataLabels {
       const el = elDataLabels[i]
       const coords = el.getBBox()
       let elRect = null
+      let seriesIndex
+
+      try {
+        seriesIndex = parseInt(
+          el.parentNode.parentNode.attributes['data:realIndex'].value
+        )
+      } catch {
+        seriesIndex = 0
+      }
 
       if (coords.width && coords.height) {
-        elRect = this.addBackgroundToDataLabel(el, coords)
+        elRect = this.addBackgroundToDataLabel(el, coords, seriesIndex)
       }
       if (elRect) {
         el.parentNode.insertBefore(elRect.node, el)
@@ -405,7 +417,13 @@ class DataLabels {
         } else {
           elRect.attr({ fill: background })
         }
-        el.setAttribute('fill', w.config.dataLabels.background.foreColor)
+
+        const foreColor = w.config.dataLabels.background.foreColor
+        if (typeof foreColor === 'function') {
+          el.setAttribute('fill', foreColor({ seriesIndex }))
+        } else if (typeof foreColor === 'object') {
+          el.setAttribute('fill', foreColor[seriesIndex])
+        } else el.setAttribute('fill', foreColor)
       }
     }
   }

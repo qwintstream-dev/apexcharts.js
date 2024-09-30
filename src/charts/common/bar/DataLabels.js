@@ -61,7 +61,7 @@ export default class BarDataLabels {
     let dataLabelsX = x
     let dataLabelsY = y
     let dataLabelsPos = {}
-    let dataLabelsConfig = w.config.dataLabels
+    let dataLabelsConfig = w.config.series[i].dataLabels ?? w.config.dataLabels
     let barDataLabelsConfig = this.barCtx.barOptions.dataLabels
     let barTotalDataLabelsConfig = this.barCtx.barOptions.dataLabels.total
 
@@ -332,10 +332,10 @@ export default class BarDataLabels {
       let xDivision = w.globals.gridWidth / w.globals.dataPoints
 
       totalDataLabelsX =
-          totalDataLabelsBcx
-        + barWidth * (w.globals.barGroups.length - 0.5)
-        - (w.globals.isXNumeric ? barWidth : xDivision)
-        + barTotalDataLabelsConfig.offsetX
+        totalDataLabelsBcx +
+        barWidth * (w.globals.barGroups.length - 0.5) -
+        (w.globals.isXNumeric ? barWidth : xDivision) +
+        barTotalDataLabelsConfig.offsetX
     }
 
     if (!w.config.chart.stacked) {
